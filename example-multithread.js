@@ -1,0 +1,5 @@
+const { Worker } = require("worker_threads")
+const w1 = new Worker("./example.js")
+const w2 = new Worker("./example.js")
+const w3 = new Worker("./example.js")
+const w4 = new Worker("./example.js")

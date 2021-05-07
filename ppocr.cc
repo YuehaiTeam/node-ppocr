@@ -1,5 +1,6 @@
 #include <napi.h>
 
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -11,6 +12,7 @@
 #include "paddle/ocr_rec.h"
 
 using namespace std;
+mutex m_mutex;
 
 class OCRInstance
 {
@@ -60,9 +62,11 @@ static void addon_unload(napi_env env, void *data, void *hint)
 }
 Napi::Value load(const Napi::CallbackInfo &info)
 {
+    m_mutex.lock();
     Napi::Env env = info.Env();
     OCRInstance *inst = new OCRInstance(info);
     napi_set_instance_data(env, inst, addon_unload, NULL);
+    m_mutex.unlock();
     return Napi::Boolean::New(env, true);
 }
 
