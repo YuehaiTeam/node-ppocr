@@ -1,0 +1,46 @@
+diff --git a/paddle/fluid/extension/include/ext_exception.h b/paddle/fluid/extension/include/ext_exception.h
+index 632d91d5..54aa2b6b 100644
+--- a/paddle/fluid/extension/include/ext_exception.h
++++ b/paddle/fluid/extension/include/ext_exception.h
+@@ -75,18 +75,8 @@ class ErrorMessage {
+   std::ostringstream oss;
+ };
+ 
+-#if defined _WIN32
+-#define HANDLE_THE_ERROR try {
+-#define END_HANDLE_THE_ERROR            \
+-  }                                     \
+-  catch (const std::exception& e) {     \
+-    std::cerr << e.what() << std::endl; \
+-    throw e;                            \
+-  }
+-#else
+ #define HANDLE_THE_ERROR
+ #define END_HANDLE_THE_ERROR
+-#endif
+ 
+ #define PD_CHECK(COND, ...)                                               \
+   do {                                                                    \
+diff --git a/paddle/fluid/platform/enforce.h b/paddle/fluid/platform/enforce.h
+index d4273382..b2e8f105 100644
+--- a/paddle/fluid/platform/enforce.h
++++ b/paddle/fluid/platform/enforce.h
+@@ -141,18 +141,8 @@ namespace platform {
+ #define LIKELY(condition) (condition)
+ #endif
+ 
+-#if defined _WIN32 && defined PADDLE_ON_INFERENCE && defined PADDLE_NO_PYTHON
+-#define HANDLE_THE_ERROR try {
+-#define END_HANDLE_THE_ERROR            \
+-  }                                     \
+-  catch (const std::exception& e) {     \
+-    std::cout << e.what() << std::endl; \
+-    throw;                              \
+-  }
+-#else
+ #define HANDLE_THE_ERROR
+ #define END_HANDLE_THE_ERROR
+-#endif
+ 
+ #ifdef __GNUC__
+ inline std::string demangle(std::string name) {
